@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "main",
+      "path": "."
+    },
+  ],
+  "extensions": {
+    "recommendations": [
+      "editorconfig.editorconfig",
+      "dart-code.dart-code",
+    ]
+  },
+  "settings": {
+  }
+}
