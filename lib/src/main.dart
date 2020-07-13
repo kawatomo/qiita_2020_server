@@ -1,7 +1,5 @@
 import 'package:grpc/grpc.dart';
 import 'dart:collection';
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:uuid/uuid.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -9,44 +7,56 @@ import 'package:qiita_2020_server/src/generated/user.pb.dart';
 import 'package:qiita_2020_server/src/generated/user.pbgrpc.dart';
 import 'package:qiita_2020_server/src/generated/google/protobuf/empty.pb.dart';
 
-class Hoge {
-  String userId;
-  DateTime expireTime;
-}
-
 final users = Set<String>();
-final sessions = HashMap<String, Hoge>();
+final sessions = HashMap<String, LoginData>();
+final points = HashMap<String, int>();
 
 class AccountService extends AccountServiceBase {
   @override
-  Future<UserData> createAccount(ServiceCall call, Empty request) async {
-    final userData = UserData()..userId = Uuid().v4();
-    users.add(userData.userId);
+  Future<LoginData> createAccount(ServiceCall call, Empty request) async {
+    final userData = LoginData()..userId = Uuid().v4();
+    if (users.contains(userData.userId)) {
+      print('Login failed: ${userData.userId}');
+      return createAccount(call, request);
+    }
+    points[userData.userId] = 0;
     return userData;
   }
 
   @override
-  Future<SessionData> login(ServiceCall call, UserData userData) async {
-    print('Login Request: ${userData.userId}');
+  Future<SessionData> login(ServiceCall call, LoginData loginData) async {
+    print('Login Request: ${loginData.userId}');
 
-    if (!users.contains(userData.userId)) {
-      print('Login failed: ${userData.userId}');
+    if (!users.contains(loginData.userId)) {
+      print('Login failed: ${loginData.userId}');
       return null;
     }
 
     final sessionId = Uuid().v4();
-    final tomorrow = DateTime.now().add(Duration(days: 1));
     await Lock().synchronized(() async {
-      sessions[sessionId] = Hoge()
-        ..userId = userData.userId
-        ..expireTime = tomorrow;
+      sessions[sessionId] = loginData;
     });
-    print('Login succeeded: ${userData.userId}');
+    print('Login succeeded: ${loginData.userId}');
     return SessionData()..sessionId = sessionId;
   }
 
-  String generateSha256(String input) {
-    return sha256.convert(utf8.encode(input)).toString();
+  @override
+  Future<SessionData> update(ServiceCall call, UpdateData updateData) async {
+    print('Update Request: ${updateData.sessionId} ${updateData.point}');
+
+    if (!sessions.containsKey(updateData.sessionId)) {
+      print('Update failed: ${updateData.sessionId}');
+      return null;
+    }
+
+    final sessionId = Uuid().v4();
+    await Lock().synchronized(() async {
+      final loginData = sessions.remove(updateData.sessionId);
+      points[loginData.userId] += updateData.point;
+      sessions[sessionId] = loginData;
+      print('Update succeeded: ${loginData.userId}');
+    });
+    return SessionData()..sessionId = sessionId;
   }
 }
 

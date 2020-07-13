@@ -2,7 +2,6 @@ name: qiita_2020_server
 dependencies:
     grpc: ^2.2.0
     protobuf: ^1.0.1
-    tuple: ^1.0.3
     uuid: ^2.2.0
     synchronized: ^2.2.0+1
 dev_dependencies:

@@ -9,26 +9,26 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class UserData extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserData', package: const $pb.PackageName('user'), createEmptyInstance: create)
+class LoginData extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginData', package: const $pb.PackageName('user'), createEmptyInstance: create)
     ..aOS(1, 'userId', protoName: 'userId')
     ..hasRequiredFields = false
   ;
 
-  UserData._() : super();
-  factory UserData() => create();
-  factory UserData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UserData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  UserData clone() => UserData()..mergeFromMessage(this);
-  UserData copyWith(void Function(UserData) updates) => super.copyWith((message) => updates(message as UserData));
+  LoginData._() : super();
+  factory LoginData() => create();
+  factory LoginData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginData clone() => LoginData()..mergeFromMessage(this);
+  LoginData copyWith(void Function(LoginData) updates) => super.copyWith((message) => updates(message as LoginData));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static UserData create() => UserData._();
-  UserData createEmptyInstance() => create();
-  static $pb.PbList<UserData> createRepeated() => $pb.PbList<UserData>();
+  static LoginData create() => LoginData._();
+  LoginData createEmptyInstance() => create();
+  static $pb.PbList<LoginData> createRepeated() => $pb.PbList<LoginData>();
   @$core.pragma('dart2js:noInline')
-  static UserData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UserData>(create);
-  static UserData _defaultInstance;
+  static LoginData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginData>(create);
+  static LoginData _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get userId => $_getSZ(0);
@@ -69,5 +69,46 @@ class SessionData extends $pb.GeneratedMessage {
   $core.bool hasSessionId() => $_has(0);
   @$pb.TagNumber(1)
   void clearSessionId() => clearField(1);
+}
+
+class UpdateData extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UpdateData', package: const $pb.PackageName('user'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..a<$core.int>(2, 'point', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  UpdateData._() : super();
+  factory UpdateData() => create();
+  factory UpdateData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  UpdateData clone() => UpdateData()..mergeFromMessage(this);
+  UpdateData copyWith(void Function(UpdateData) updates) => super.copyWith((message) => updates(message as UpdateData));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static UpdateData create() => UpdateData._();
+  UpdateData createEmptyInstance() => create();
+  static $pb.PbList<UpdateData> createRepeated() => $pb.PbList<UpdateData>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateData>(create);
+  static UpdateData _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get point => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set point($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPoint() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPoint() => clearField(2);
 }
 
